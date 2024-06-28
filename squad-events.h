@@ -17,18 +17,14 @@ constexpr char const* EV_SQUAD_SOMEONE_JOINED = "EV_SQUAD_SJ";
 constexpr char const* EV_SQUAD_SOMEONE_MOVED = "EV_SQUAD_SM";
 /// Payload *SquadMember
 constexpr char const* EV_SQUAD_SOMEONE_READY_CHECK_CHANGED = "EV_SQUAD_SRCC";
-/// Payload: LeaveReason
+/// Payload: *MemberLeftData (the squad is already updated and the data will invalidate after the event)
 constexpr char const* EV_SQUAD_SOMEONE_LEFT = "EV_SQUAD_SL";
 
 /// Payload: SquadMemberLimit (without a pointer, directly as the argument)
 constexpr char const* EV_SQUAD_MEMBER_LIMIT_CHANGED = "EV_SQUAD_MLC";
 
-enum LeaveReason : uint8_t {
-	None   = 0,
-	Kicked = 1,
-};
-
 enum SquadMemberLimit : uint8_t {
+	NoSquad =  0,
 	Party   =  5,
 	Raid    = 10,
 	Default = 50,
@@ -59,7 +55,7 @@ constexpr uint8_t const MEMBER_INDEX_EXTERNAL = 256;
 
 struct Squad {
 	UUID id;
-	uint8_t member_limit;
+	SquadMemberLimit member_limit;
 	uint8_t member_count;
 	uint8_t my_index;
 	uint8_t _reserved[1];
@@ -67,4 +63,15 @@ struct Squad {
 #pragma warning(disable : 4200) // msvc: nonstandard data[]
 	SquadMember members[];
 #pragma warning(pop)
+};
+
+enum LeaveReason : uint8_t {
+	None   = 0,
+	Kicked = 1,
+};
+
+struct MemberLeftData {
+	SquadMember member;
+	LeaveReason reason;
+	uint8_t _reserved[3];
 };
