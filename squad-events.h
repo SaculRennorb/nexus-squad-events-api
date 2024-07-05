@@ -73,20 +73,20 @@ struct SquadMember {
 	uint8_t _elite_spec;
 	uint8_t _subgroup;
 	/// Current slot in the global array, or the slot this member was removed from.
-	/// If the member is not yet in the squad, this will be `MEMBER_INDEX_EXTERNAL` (256).
+	/// If the member is not yet in the squad, this will be `MEMBER_INDEX_EXTERNAL` (255).
 	uint8_t array_index;
 	SquadMemberFlags flags;
 	uint8_t _reserved[3];
 };
 
-constexpr uint8_t const MEMBER_INDEX_EXTERNAL = 256;
+constexpr uint8_t const MEMBER_INDEX_EXTERNAL = 255;
 
 struct Squad {
 	UUID id;
 	SquadMemberLimit member_limit;
 	uint8_t member_count;
 	uint8_t my_index;
-	/// If the member is no comm in the squad, this will be `MEMBER_INDEX_EXTERNAL` (256).
+	/// If the member is no comm in the squad, this will be `MEMBER_INDEX_EXTERNAL` (255).
 	uint8_t commander_index;
 #pragma warning(push)
 #pragma warning(disable : 4200) // msvc: nonstandard data[]
